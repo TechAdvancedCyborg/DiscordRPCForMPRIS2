@@ -13,6 +13,7 @@ player = Player(dbus_interface_info={'dbus_uri': uri})
 oldtrackid = "Null"
 while 1:
      metadata = player.Metadata
+     print(metadata)
      if metadata['mpris:trackid'] != oldtrackid:
          endtime = time.time()+metadata['mpris:length']/1000000
          try:
