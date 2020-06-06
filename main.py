@@ -8,6 +8,11 @@ image = '81596775_p0'
 RPC = Presence(client_id)
 RPC.connect()
 
+
+albumcovers = {"A Brief Inquiry Into Online Relationships":"abriefinquiry1","":image}
+
+
+
 uri = next(get_players_uri())
 player = Player(dbus_interface_info={'dbus_uri': uri})
 oldtrackid = "Null"
@@ -19,7 +24,7 @@ while 1:
          endtime = time.time()+metadata['mpris:length']/1000000
          oldtrackid = metadata['mpris:trackid']
      try:
-     	 RPC.update(state=metadata['xesam:artist'][0], details=metadata['xesam:title'],start=time.time(),large_image=image,end=endtime)
+     	 RPC.update(state=metadata['xesam:artist'][0], details=metadata['xesam:title']+" • "+metadata['xesam:album'],start=time.time(),large_image=albumcovers[str(metadata['xesam:album'])],end=endtime)
      except:
-         RPC.update(details=metadata['xesam:title'],start=time.time(),large_image=image,end=endtime)
+         RPC.update(details=metadata['xesam:title']+" • "+metadata['xesam:album'],start=time.time(),large_image=albumcovers[str(metadata['xesam:album'])],end=endtime)
      time.sleep(1)
