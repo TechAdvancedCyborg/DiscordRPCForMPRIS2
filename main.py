@@ -4,7 +4,10 @@ from pypresence import Presence
 import time
 
 client_id = '717362726028050533'
+
 image = '81596775_p0'
+
+largetext = ".　　　　　　　*　˚ 　 ˚.　 　✦　.　　　　*　　˚ 　　　.　　　　˚.　 　　.　　　　　　　*　　　　　.　✦　˚ .　　　　˚.　 　　.　　　　　　　*　˚ 　 ˚.　 　✦　.　　　　*　　˚"
 RPC = Presence(client_id)
 RPC.connect()
 
@@ -31,9 +34,9 @@ def mainloop():
              except:
                  pass
              try:
-             	 RPC.update(state=metadata['xesam:artist'][0], details=metadata['xesam:title']+" • "+metadata['xesam:album'],start=time.time(),large_image=albumcovers[currentalbumcover],end=endtime,large_text=metadata['xesam:album']+"  ")
+             	 RPC.update(state=metadata['xesam:artist'][0], details=metadata['xesam:title']+" • "+metadata['xesam:album'],start=time.time(),large_image=albumcovers[currentalbumcover],end=endtime,large_text=largetext)
              except:
-                 RPC.update(details=metadata['xesam:title']+" • "+metadata['xesam:album'],start=time.time(),large_image=albumcovers[currentalbumcover],end=endtime,large_text=metadata['xesam:album']+"  ")
+                 RPC.update(details=metadata['xesam:title']+" • "+metadata['xesam:album'],start=time.time(),large_image=albumcovers[currentalbumcover],end=endtime,large_text=largetext)
              time.sleep(1)
     except:
         time.sleep(5)
