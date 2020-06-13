@@ -13,9 +13,10 @@ RPC.connect()
 
 
 albumcovers = {"A Brief Inquiry Into Online Relationships":"abriefinquiry1","Good Faith":"good_faith","After Hours":"after_hours","Get Your Wish":"get_your_wish","Worlds":"worlds","":image}
+originicons = {"MellowPlayer":"mellowplayer","":"play-button"}
 
 
-def mainloop():
+while 1:
     try:
         uri = next(get_players_uri())
         player = Player(dbus_interface_info={'dbus_uri': uri})
@@ -37,12 +38,30 @@ def mainloop():
              except:
                  pass
              try:
-             	 RPC.update(state=metadata['xesam:artist'][0], details=metadata['xesam:title']+" • "+metadata['xesam:album'],start=time.time(),large_image=albumcovers[currentalbumcover],end=endtime,large_text=largetext)
+                 currentoriginicon = ""
+                 tempvar = originicons[str(metadata['origin'])]
+                 currentoriginicon = str(metadata['origin'])
              except:
-                 RPC.update(details=metadata['xesam:title']+" • "+metadata['xesam:album'],start=time.time(),large_image=albumcovers[currentalbumcover],end=endtime,large_text=largetext)
+                 pass
+             try:
+                 artist = metadata['xesam:artist'][0]
+             except:
+                 artist = "  "
+             try:
+                 album = " • "+metadata['xesam:album']
+             except:
+                 album = "  "
+             try:
+                 title = metadata['xesam:title']
+             except:
+                 title = "  "
+             try:
+                 origin = metadata['origin']
+             except:
+                 origin = "  "
+
+             RPC.update(state=artist, details=title+album,start=time.time(),large_image=albumcovers[currentalbumcover],end=endtime,large_text=largetext,small_image=originicons[currentoriginicon],small_text=origin)
              time.sleep(1)
     except Exception as e:
         print(e)
         time.sleep(5)
-        mainloop()
-mainloop()
