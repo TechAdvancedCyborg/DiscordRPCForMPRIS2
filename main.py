@@ -24,9 +24,12 @@ def mainloop():
         while 1:
              metadata = player.Metadata
              print(metadata)
-             if metadata['mpris:trackid'] != oldtrackid:
-                 endtime = time.time()+metadata['mpris:length']/1000000
-                 oldtrackid = metadata['mpris:trackid']
+             try:
+                 if metadata['mpris:trackid'] != oldtrackid:
+                     endtime = time.time()+metadata['mpris:length']/1000000
+                     oldtrackid = metadata['mpris:trackid']
+             except:
+                 endtime=1000
              try:
                  currentalbumcover = ""
                  tempvar = albumcovers[str(metadata['xesam:album'])]
@@ -38,7 +41,8 @@ def mainloop():
              except:
                  RPC.update(details=metadata['xesam:title']+" • "+metadata['xesam:album'],start=time.time(),large_image=albumcovers[currentalbumcover],end=endtime,large_text=largetext)
              time.sleep(1)
-    except:
+    except Exception as e:
+        print(e)
         time.sleep(5)
         mainloop()
 mainloop()
