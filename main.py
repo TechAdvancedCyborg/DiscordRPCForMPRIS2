@@ -44,7 +44,10 @@ while 1:
              except:
                  pass
              try:
-                 artist = metadata['xesam:artist'][0]
+                 if str(metadata['xesam:artist'][0]) == "":
+                     artist = "  "
+                 else:
+                     artist = metadata['xesam:artist'][0]
              except:
                  artist = "  "
              try:
