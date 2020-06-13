@@ -59,7 +59,7 @@ while 1:
                  origin = metadata['origin']
              except:
                  origin = "  "
-
+             print(origin,originicons[currentoriginicon])
              RPC.update(state=artist, details=title+album,start=time.time(),large_image=albumcovers[currentalbumcover],end=endtime,large_text=largetext,small_image=originicons[currentoriginicon],small_text=origin)
              time.sleep(1)
     except Exception as e:
