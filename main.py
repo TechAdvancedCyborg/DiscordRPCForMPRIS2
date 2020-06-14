@@ -30,7 +30,6 @@ while 1:
              metadata = player.Metadata
              position = player.Position
              status = player.PlaybackStatus
-             print(round(time.time()*100)/100,"Done...")
              print(round(time.time()*100)/100,"Processing...")
              try:
                  if metadata['mpris:trackid'] != oldtrackid:
@@ -74,15 +73,11 @@ while 1:
              except:
                  origin = "  "
              dynamicendtime = time.time()+metadata['mpris:length']/1000000-position/1000000
-             print(round(time.time()*100)/100,"Done...")
              print(round(time.time()*100)/100,"Updating RPC...")
              RPC.update(state=artist, details=title+album,start=time.time(),large_image=albumcovers[currentalbumcover],end=dynamicendtime,large_text=largetext,small_image=originicons[currentoriginicon],small_text=origin)
-             print(round(time.time()*100)/100,"Done...")
              print(round(time.time()*100)/100,"Waiting 1s...")
              time.sleep(1)
-             print(round(time.time()*100)/100,"Done...")
     except Exception as e:
-        print(round(time.time()*100)/100,e)
+        print(round(time.time()*100)/100,"Error:",e)
         print(round(time.time()*100)/100,"Waiting 5s...")
         time.sleep(5)
-        print(round(time.time()*100)/100,"Done...")
