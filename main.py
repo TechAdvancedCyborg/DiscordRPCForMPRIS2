@@ -18,19 +18,25 @@ originicons = {"MellowPlayer":"mellowplayer","":"play-button"}
 
 while 1:
     try:
+        print("----------------------------------------")
+        print(round(time.time()*100)/100,"Initialising DBUS Interface...")
         uri = next(get_players_uri())
         player = Player(dbus_interface_info={'dbus_uri': uri})
         oldtrackid = "Null"
         endtime=0
         while 1:
+             print("----------------------------------------")
+             print(round(time.time()*100)/100,"Getting from DBUS...")
              metadata = player.Metadata
-             print(metadata)
+             position = player.Position
+             status = player.PlaybackStatus
+             print(round(time.time()*100)/100,"Done...")
+             print(round(time.time()*100)/100,"Processing...")
              try:
                  if metadata['mpris:trackid'] != oldtrackid:
-                     endtime = time.time()+metadata['mpris:length']/1000000
                      oldtrackid = metadata['mpris:trackid']
              except:
-                 endtime=1000
+                 pass
              try:
                  currentalbumcover = ""
                  tempvar = albumcovers[str(metadata['xesam:album'])]
@@ -41,6 +47,11 @@ while 1:
                  currentoriginicon = ""
                  tempvar = originicons[str(metadata['origin'])]
                  currentoriginicon = str(metadata['origin'])
+             except:
+                 pass
+             try:
+                 if status == "Paused":
+                     currentoriginicon = "pause-button"
              except:
                  pass
              try:
@@ -62,9 +73,16 @@ while 1:
                  origin = metadata['origin']
              except:
                  origin = "  "
-             print(origin,originicons[currentoriginicon])
-             RPC.update(state=artist, details=title+album,start=time.time(),large_image=albumcovers[currentalbumcover],end=endtime,large_text=largetext,small_image=originicons[currentoriginicon],small_text=origin)
+             dynamicendtime = time.time()+metadata['mpris:length']/1000000-position/1000000
+             print(round(time.time()*100)/100,"Done...")
+             print(round(time.time()*100)/100,"Updating RPC...")
+             RPC.update(state=artist, details=title+album,start=time.time(),large_image=albumcovers[currentalbumcover],end=dynamicendtime,large_text=largetext,small_image=originicons[currentoriginicon],small_text=origin)
+             print(round(time.time()*100)/100,"Done...")
+             print(round(time.time()*100)/100,"Waiting 1s...")
              time.sleep(1)
+             print(round(time.time()*100)/100,"Done...")
     except Exception as e:
-        print(e)
+        print(round(time.time()*100)/100,e)
+        print(round(time.time()*100)/100,"Waiting 5s...")
         time.sleep(5)
+        print(round(time.time()*100)/100,"Done...")
