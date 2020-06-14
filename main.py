@@ -37,7 +37,7 @@ def log(log_time,log_type,log_message):
 while 1:
     try:
         log(time.time(),"Separator","")
-        log(time.time(),"Log","Initialising DBUS Interface")
+        log(time.time(),"Log","Initialising DBUS Interface\n")
         uri = next(get_players_uri())
         player = Player(dbus_interface_info={'dbus_uri': uri})
         oldtrackid = "Null"
