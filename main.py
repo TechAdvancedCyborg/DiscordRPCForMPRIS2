@@ -8,8 +8,6 @@ client_id = '717362726028050533'
 image = '81596775_p0'
 
 largetext = ".　　　　　　　*　˚ 　 ˚.　 　✦　.　　　　*　　˚ 　　　.　　　　˚.　 　　.　　　　　　　*　　　　　.　✦　˚ .　　　　˚.　 　　.　　　　　　　*　˚ 　 ˚.　 　✦　.　　　　*　　˚"
-RPC = Presence(client_id)
-RPC.connect()
 
 
 albumcovers = {"A Brief Inquiry Into Online Relationships":"abriefinquiry1","Good Faith":"good_faith","After Hours":"after_hours","Get Your Wish":"get_your_wish","Worlds":"worlds","Illusions of the Heart":"illusions-of-the-heart","":image}
@@ -28,12 +26,18 @@ def log(log_time,log_type,log_message):
     elif log_type == "Validation":
         log_message_to_print = colored(log_message,"green")
     print(log_message_to_print, end = '')
+RPC = Presence(client_id)
+def connecttorpc():
+    try:
+        RPC.connect()
+    except:
+        log(time.time(),"Log","Waiting 45s...")
+        time.sleep(45)
+        log(time.time(),"Validation","✓\n")
+        connecttorpc()
 
 
-
-
-
-
+connecttorpc()
 while 1:
     try:
         log(time.time(),"Separator","")
@@ -111,3 +115,8 @@ while 1:
         log(time.time(),"Log","Waiting 5s...")
         time.sleep(5)
         log(time.time(),"Validation","✓\n")
+        if str(e) == "Client ID is Invalid":
+            log(time.time(),"Log","Waiting 25s...")
+            time.sleep(25)
+            log(time.time(),"Validation","✓\n")
+            connecttorpc()
