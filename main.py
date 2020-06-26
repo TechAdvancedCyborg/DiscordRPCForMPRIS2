@@ -35,19 +35,27 @@ def connecttorpc():
         time.sleep(45)
         log(time.time(),"Validation","✓\n")
         connecttorpc()
-
+def getbestdbus():
+    log(time.time(),"Separator","")
+    log(time.time(),"Log","Getting Best DBUS Interface\n")
+    for x in get_players_uri():
+        uri = x
+        player = Player(dbus_interface_info={'dbus_uri': uri})
+        if player.PlaybackStatus == "Playing":
+            break
+    log(time.time(),"Validation","✓\n")
+    return player
 
 connecttorpc()
 while 1:
     try:
-        log(time.time(),"Separator","")
-        log(time.time(),"Log","Initialising DBUS Interface\n")
-        uri = next(get_players_uri())
-        player = Player(dbus_interface_info={'dbus_uri': uri})
         oldtrackid = "Null"
         endtime=0
-        log(time.time(),"Validation","✓\n")
+        lastdbuscheck=0
         while 1:
+             if time.time()-lastdbuscheck > 10:
+                 player = getbestdbus()
+                 lastdbuscheck = time.time()
              log(time.time(),"Separator","")
              log(time.time(),"Log","Getting from DBUS...")
              log(time.time(),"Validation","✓\n")
