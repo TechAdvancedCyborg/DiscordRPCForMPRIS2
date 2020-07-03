@@ -2,12 +2,14 @@ from mpris2 import get_players_uri, Player
 import time
 from pypresence import Presence
 from termcolor import colored, cprint
+import math
+import datetime
 
 client_id = '717362726028050533'
 
 image = '81596775_p0'
+progressbarscale = 16
 
-largetext = ".　　　　　　　*　˚ 　 ˚.　 　✦　.　　　　*　　˚ 　　　.　　　　˚.　 　　.　　　　　　　*　　　　　.　✦　˚ .　　　　˚.　 　　.　　　　　　　*　˚ 　 ˚.　 　✦　.　　　　*　　˚"
 
 
 albumcovers = {"A Brief Inquiry Into Online Relationships":"abriefinquiry1","Good Faith":"good_faith","After Hours":"after_hours","Get Your Wish":"get_your_wish","Worlds":"worlds","Illusions of the Heart":"illusions-of-the-heart","":image}
@@ -45,7 +47,10 @@ def getbestdbus():
             break
     log(time.time(),"Validation","✓\n")
     return player
-
+def getlargetext():
+    bar = "|"+(math.floor(position/length*progressbarscale)*"█")+(math.floor((1-position/length)*progressbarscale)*"░")+"|"
+    progress = "("+str(round(position/length*100))+"%) | "+str(datetime.timedelta(seconds=position/1000000))+" / "+str(datetime.timedelta(seconds=length/1000000))
+    return bar+progress
 connecttorpc()
 while 1:
     try:
@@ -108,13 +113,15 @@ while 1:
                  origin = "  "
                  log(time.time(),"Warning","No Origin...\n")
              try:
-                 dynamicendtime = time.time()+metadata['mpris:length']/1000000-position/1000000
+                 length = metadata['mpris:length']
+                 dynamicendtime = time.time()+length/1000000-position/1000000
              except:
                  log(time.time(),"Warning","No Length...\n")
+                 length = 0
                  dynamicendtime = 100
              log(time.time(),"Log","Updating RPC...")
              log(time.time(),"Validation","✓\n")
-             RPC.update(state=artist, details=title+album,start=time.time(),large_image=albumcovers[currentalbumcover],end=dynamicendtime,large_text=largetext,small_image=originicons[currentoriginicon],small_text=origin)
+             RPC.update(state=artist, details=title+album,start=time.time(),large_image=albumcovers[currentalbumcover],end=dynamicendtime,large_text=getlargetext(),small_image=originicons[currentoriginicon],small_text=origin)
              log(time.time(),"Log","Waiting 1s...")
              time.sleep(1)
              log(time.time(),"Validation","✓\n")
