@@ -8,7 +8,7 @@ import datetime
 client_id = '717362726028050533'
 
 image = '81596775_p0'
-progressbarscale = 16
+progressbarscale = 18
 
 
 
