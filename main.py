@@ -8,7 +8,7 @@ import datetime
 client_id = '717362726028050533'
 
 image = '81596775_p0'
-progressbarscale = 18
+progressbarscale = 14
 
 
 
@@ -48,9 +48,9 @@ def getbestdbus():
     log(time.time(),"Validation","✓\n")
     return player
 def getlargetext():
-    bar = "|"+(math.floor(position/length*progressbarscale)*"█")+(math.floor((1-position/length)*progressbarscale)*"░")+"|"
+    bar = "|"+(math.floor(position/length*progressbarscale)*"█")+(math.ceil((1-position/length)*progressbarscale)*"░")+"|"
     progress = "("+str(round(position/length*100))+"%) | "+str(datetime.timedelta(seconds=position/1000000))+" / "+str(datetime.timedelta(seconds=length/1000000))
-    return bar+progress
+    return bar+"\n"+progress
 connecttorpc()
 while 1:
     try:
@@ -117,7 +117,7 @@ while 1:
                  dynamicendtime = time.time()+length/1000000-position/1000000
              except:
                  log(time.time(),"Warning","No Length...\n")
-                 length = 0
+                 length = 1000000
                  dynamicendtime = 100
              log(time.time(),"Log","Updating RPC...")
              log(time.time(),"Validation","✓\n")
