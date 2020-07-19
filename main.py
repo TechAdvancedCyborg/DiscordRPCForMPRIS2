@@ -12,7 +12,7 @@ progressbarscale = 14
 
 
 
-albumcovers = {"A Brief Inquiry Into Online Relationships":"abriefinquiry1","Good Faith":"good_faith","After Hours":"after_hours","Get Your Wish":"get_your_wish","Worlds":"worlds","Illusions of the Heart":"illusions-of-the-heart","":image}
+albumcovers = {"A Brief Inquiry Into Online Relationships":"abriefinquiry1","Good Faith":"good_faith","After Hours":"after_hours","Get Your Wish":"get_your_wish","Worlds":"worlds","Illusions of the Heart":"illusions-of-the-heart","Random Access Memories":"ramdaft","":image}
 originicons = {"MellowPlayer":"mellowplayer","":"play-button","pause-button":"pause-button"}
 
 def log(log_time,log_type,log_message):
@@ -49,7 +49,7 @@ def getbestdbus():
     return player
 def getlargetext():
     bar = "|"+(math.floor(position/length*progressbarscale)*"█")+(math.ceil((1-position/length)*progressbarscale)*"░")+"|"
-    progress = "("+str(round(position/length*100))+"%) | "+str(datetime.timedelta(seconds=position/1000000))+" / "+str(datetime.timedelta(seconds=length/1000000))
+    progress = "("+str(round(position/length*100))+"%) | "+str(datetime.timedelta(seconds=round(position/1000000)))+" / "+str(datetime.timedelta(seconds=length/1000000))
     return bar+"\n"+progress
 connecttorpc()
 while 1:
